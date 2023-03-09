@@ -8,12 +8,12 @@ export class FavoritesEngineService {
         this.FavoritesEngineRepository = new FavoritesEngineRepository();
     }
 
-    // async getTasks() {
-    //     return await this.FavoritesEngineRepository.getTasks();
-    // }
+    async getTasks() {
+        return await this.FavoritesEngineRepository.getTasks();
+    }
 
-    async createFavorite(favorite) {
-        return await this.FavoritesEngineRepository.createFavorite(favorite);
+    async createFavorite(userId: number, movieTitle:string, moviePoster:string) {
+        return await this.FavoritesEngineRepository.createFavorite(userId, movieTitle, moviePoster);
     }
 
     // async updateTask(favorite) {

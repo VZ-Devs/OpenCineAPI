@@ -2,7 +2,7 @@ import * as http from "http";
 import App from "./app";
 import { APILogger } from "./logger/api.logger";
 
-const port = process.env.PORT || 3070;
+const port =  3070;
 
 App.set("port", port);
 const server = http.createServer(App);

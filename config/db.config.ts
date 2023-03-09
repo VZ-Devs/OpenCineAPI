@@ -1,5 +1,7 @@
 import { Sequelize } from 'sequelize-typescript'
-import { Tasks } from '../model/task.model';
+import { Favorites } from '../model/favorites.model';
+import { Movies } from '../model/movies.model';
+import { Users } from '../model/user.model';
 
 export const connect = () => {
 
@@ -26,7 +28,7 @@ export const connect = () => {
         }
     });
 
-    sequelize.addModels([Tasks]);
+    sequelize.addModels([Users, Movies, Favorites]);
 
     const db: any = {};
     db.Sequelize = Sequelize;

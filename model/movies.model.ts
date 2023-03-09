@@ -7,9 +7,6 @@ import { Favorites } from './favorites.model';
 export class Movies extends Model {
   
   @Column
-  user_id: string
-
-  @Column
   url: string
 
   @Column

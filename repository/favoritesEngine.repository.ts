@@ -10,6 +10,9 @@ export class FavoritesEngineRepository {
     private logger: APILogger;
     private db: any = {};
     private favoritesEngineRepository: any;
+    private favoritesEngineRepositoryUsers: any;
+    private favoritesEngineRepositoryMovies: any;
+    private favoritesEngineRepositoryFavorites: any;
 
     constructor() {
         this.db = connect();
@@ -17,35 +20,45 @@ export class FavoritesEngineRepository {
         this.db.sequelize.sync({ force: true }).then(() => {
             console.log("Drop and re-sync db.");
         });
-        this.favoritesEngineRepository = this.db.sequelize.getRepository(Users);
+        this.favoritesEngineRepositoryUsers = this.db.sequelize.getRepository(Users);
         console.log("Users")
-        this.favoritesEngineRepository = this.db.sequelize.getRepository(Movies);
+        this.favoritesEngineRepositoryMovies = this.db.sequelize.getRepository(Movies);
         console.log("Movies")
-        this.favoritesEngineRepository = this.db.sequelize.getRepository(Favorites);
+        this.favoritesEngineRepositoryFavorites = this.db.sequelize.getRepository(Favorites);
         console.log("Favorites")
     }
 
-    // async getTasks() {
-        
-    //     try {
-    //         const tasks = await this.favoritesEngineRepository.findAll();
-    //         console.log('tasks:::', tasks);
-    //         return tasks;
-    //     } catch (err) {
-    //         console.log(err);
-    //         return [];
-    //     }
-    // }
+    async getTasks() {
 
-    async createFavorite(favorite) {
-        let data = {};
         try {
-            favorite.createdate = new Date().toISOString();
-            data = await this.favoritesEngineRepository.create(favorite);
-        } catch(err) {
-            this.logger.error('Error::' + err);
+            const tasks = await this.favoritesEngineRepository.findAll();
+            console.log('tasks:::', tasks);
+            return tasks;
+        } catch (err) {
+            console.log(err);
+            return [];
         }
-        return data;
+    }
+
+    async createFavorite(userId: number, movieTitle:string, moviePoster:string) {
+        try {
+            const user = await this.favoritesEngineRepositoryUsers.findByPk(userId);
+            
+            if (!user){
+                return `user doesn't exist`
+            }
+            let movie = await this.favoritesEngineRepositoryMovies.findOne({where: {title:movieTitle}});
+            if (!movie) { 
+                let movie = await this.favoritesEngineRepositoryMovies.create({title: movieTitle, url: moviePoster});
+            }
+        
+            const favorite = await this.favoritesEngineRepositoryFavorites.create({user_id: userId, movie_id: movie.id});
+            return favorite;
+        }
+        catch (error) {
+            console.error(error); 
+            return ({ error: 'Internal server error' });
+        }
     }
 
     // async updateTask(favorite) {
