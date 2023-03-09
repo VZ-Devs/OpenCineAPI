@@ -8,9 +8,9 @@ export class FavoritesEngineService {
         this.FavoritesEngineRepository = new FavoritesEngineRepository();
     }
 
-    // async getFavorites(userId: string) {
-    //     return await this.FavoritesEngineRepository.getFavorites(userId);
-    // }
+    async getFavorites(userId: string) {
+        return await this.FavoritesEngineRepository.getFavorites(userId);
+    }
 
     async createFavorite(userId: number, movieTitle:string, moviePoster:string) {
         return await this.FavoritesEngineRepository.createFavorite(userId, movieTitle, moviePoster);

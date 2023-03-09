@@ -28,17 +28,27 @@ export class FavoritesEngineRepository {
         console.log("Favorites")
     }
 
-    // async getFavorites(userId: string) {
+    async getFavorites(userId: string) {
 
-    //     try {
-    //         const favorites = await this.favoritesEngineRepositoryFavorites.findAll( {where: {user_id: userId}});
-    //         console.log('favorites:', favorites);
-    //         return favorites;
-    //     } catch (err) {
-    //         console.log(err);
-    //         return [];
-    //     }
-    // }
+        try {
+            const favorites = await this.favoritesEngineRepositoryFavorites.findAll( {where: {user_id: userId}});
+            if(favorites){
+                const userFavorites = []
+                favorites.forEach(async favorite => {
+                    let moviePoster = await this.favoritesEngineRepositoryMovies.findByPk( favorite.movie_id).then(data => data.toJSON());
+            
+                    userFavorites.push({moviePoster})
+                    
+
+                });
+                return userFavorites;
+            }
+            return 'nope ';
+        } catch (err) {
+            console.log(err);
+            return [];
+        }
+    }
 
     async createFavorite(userId: number, movieTitle:string, moviePoster:string) {
         // const testUser = await this.favoritesEngineRepositoryUsers.create({firstName:"Rita", lastName:'Frias', email:'testemail@gmail.com', password:'123'})
