@@ -4,6 +4,7 @@ import { Movies } from './movies.model'
 
 @Table
 export class Favorites extends Model {
+    
   
 @ForeignKey(() => Users)
     @Column

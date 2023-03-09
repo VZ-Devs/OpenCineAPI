@@ -11,10 +11,10 @@ export class FavoritesController {
         this.logger = new APILogger()
     }
 
-    async getTasks() {
-        this.logger.info('Controller: getTasks', null)
-        return await this.favoritesEngineService.getTasks();
-    }
+    // async getFavorites(userId: string) {
+    //     this.logger.info('Controller: getTasks', null)
+    //     return await this.favoritesEngineService.getFavorites(userId);
+    // }
 
     async createFavorite(userId: number,movieTitle:string, moviePoster:string) {
         // this.logger.info('Controller: createFavorite', userId, movieId);

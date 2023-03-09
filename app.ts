@@ -39,9 +39,11 @@ class App {
 
     private routes(): void {
 
-        // this.express.get('/api/tasks', (req, res) => {
-        //     this.favoriteController.getTasks().then(data => res.json(data));
+        // this.express.get('/api/user/favorite:userId', (req, res) => {
+        //     const userId = req.params.userId
+        //     this.favoriteController.getFavorites(userId).then(data => res.json(data));
         // });
+
         this.express.post('/api/user/favorite', async (req, res) => {
             const { userId, movieTitle, moviePoster } = req.body;
             this.favoriteController.createFavorite(userId, movieTitle, moviePoster).then(data => res.json(data));

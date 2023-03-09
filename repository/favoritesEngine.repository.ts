@@ -17,7 +17,7 @@ export class FavoritesEngineRepository {
     constructor() {
         this.db = connect();
         // For Development
-        this.db.sequelize.sync({ force: true }).then(() => {
+        this.db.sequelize.sync({ force: false }).then(() => {
             console.log("Drop and re-sync db.");
         });
         this.favoritesEngineRepositoryUsers = this.db.sequelize.getRepository(Users);
@@ -28,30 +28,27 @@ export class FavoritesEngineRepository {
         console.log("Favorites")
     }
 
-    async getTasks() {
+    // async getFavorites(userId: string) {
 
-        try {
-            const tasks = await this.favoritesEngineRepository.findAll();
-            console.log('tasks:::', tasks);
-            return tasks;
-        } catch (err) {
-            console.log(err);
-            return [];
-        }
-    }
+    //     try {
+    //         const favorites = await this.favoritesEngineRepositoryFavorites.findAll( {where: {user_id: userId}});
+    //         console.log('favorites:', favorites);
+    //         return favorites;
+    //     } catch (err) {
+    //         console.log(err);
+    //         return [];
+    //     }
+    // }
 
     async createFavorite(userId: number, movieTitle:string, moviePoster:string) {
+        // const testUser = await this.favoritesEngineRepositoryUsers.create({firstName:"Rita", lastName:'Frias', email:'testemail@gmail.com', password:'123'})
+        // console.log(testUser)
         try {
-            const user = await this.favoritesEngineRepositoryUsers.findByPk(userId);
-            
-            if (!user){
-                return `user doesn't exist`
-            }
             let movie = await this.favoritesEngineRepositoryMovies.findOne({where: {title:movieTitle}});
             if (!movie) { 
-                let movie = await this.favoritesEngineRepositoryMovies.create({title: movieTitle, url: moviePoster});
+                movie = await this.favoritesEngineRepositoryMovies.create({title: movieTitle, url: moviePoster});
             }
-        
+            console.log(movie.id)
             const favorite = await this.favoritesEngineRepositoryFavorites.create({user_id: userId, movie_id: movie.id});
             return favorite;
         }
