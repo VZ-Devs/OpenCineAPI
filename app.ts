@@ -39,9 +39,10 @@ class App {
 
     private routes(): void {
 
-        this.express.get('/api/user/favorite/:userId', (req, res) => {
+        this.express.get('/api/user/favorite/:userId', async (req, res) => {
             const userId = req.params.userId
             this.favoriteController.getFavorites(userId).then(data => res.json(data));
+
         });
 
         this.express.post('/api/user/favorite', async (req, res) => {

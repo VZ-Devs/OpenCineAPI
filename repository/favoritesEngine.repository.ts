@@ -29,24 +29,26 @@ export class FavoritesEngineRepository {
     }
 
     async getFavorites(userId: string) {
-
+        let userFavorites = []
         try {
             const favorites = await this.favoritesEngineRepositoryFavorites.findAll( {where: {user_id: userId}});
-            if(favorites){
-                const userFavorites = []
-                favorites.forEach(async favorite => {
-                    let moviePoster = await this.favoritesEngineRepositoryMovies.findByPk( favorite.movie_id).then(data => data.toJSON());
-            
-                    userFavorites.push({moviePoster})
-                    
+        
+            if(favorites.length > 0){
+                for(let i = 0; i < favorites.length; i++){
+                    let moviePoster = await this.favoritesEngineRepositoryMovies.findByPk( favorites[i].movie_id).then(data  => data)
+                    userFavorites.push(moviePoster.url)
+                }
+                console.log(userFavorites)
+                return userFavorites
 
-                });
-                return userFavorites;
             }
-            return 'nope ';
+            else {
+                return [];
+            }
+
         } catch (err) {
             console.log(err);
-            return [];
+            return 'empty';
         }
     }
 
