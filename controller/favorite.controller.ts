@@ -16,7 +16,7 @@ export class FavoritesController {
         return await this.favoritesEngineService.getFavorites(userId);
     }
 
-    async createFavorite(userId: number,movieTitle:string, moviePoster:string) {
+    async createFavorite(userId: string,movieTitle:string, moviePoster:string) {
         // this.logger.info('Controller: createFavorite', userId, movieId);
         return await this.favoritesEngineService.createFavorite(userId, movieTitle, moviePoster);
     }
@@ -26,8 +26,8 @@ export class FavoritesController {
     //     return await this.favoritesEngineService.updateTask(favorite);
     // }
 
-    // async deleteTask(taskId) {
-    //     this.logger.info('Controller: deleteTask', taskId);
-    //     return await this.favoritesEngineService.deleteTask(taskId);
-    // }
+    async deleteTask(userId: string, movieId: string) {
+        this.logger.info('Controller: deleteTask', null);
+        return await this.favoritesEngineService.deleteTask(userId, movieId);
+    }
 }

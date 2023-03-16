@@ -21,11 +21,24 @@ export class FavoritesEngineRepository {
             console.log("Drop and re-sync db.");
         });
         this.favoritesEngineRepositoryUsers = this.db.sequelize.getRepository(Users);
-        console.log("Users")
+        console.log("User table created")
+
+        this.favoritesEngineRepositoryUsers.destroy({ where: {} })
+        this.favoritesEngineRepositoryUsers.truncate({ restartIdentity: true, cascade: true })
+        this.favoritesEngineRepositoryUsers.create({firstName:"Rita", lastName:'Frias', email:'testemail@gmail.com', password:'123Rita'})
+        this.favoritesEngineRepositoryUsers.create({firstName:"Gio", lastName:'Lituma', email:'testemail@gmail.com', password:'123Gio'})
+        this.favoritesEngineRepositoryUsers.create({firstName:"Edgard", lastName:'Gam', email:'testemail@gmail.com', password:'123Edgard'})
+    
         this.favoritesEngineRepositoryMovies = this.db.sequelize.getRepository(Movies);
         console.log("Movies")
+        this.favoritesEngineRepositoryMovies.destroy({ where: {} })
+        this.favoritesEngineRepositoryMovies.truncate({ restartIdentity: true, cascade: true })
+        // this.favoritesEngineRepositoryMovies.create({title: 'Spiderman', url: 'www.test.com'})
+
         this.favoritesEngineRepositoryFavorites = this.db.sequelize.getRepository(Favorites);
         console.log("Favorites")
+        this.favoritesEngineRepositoryFavorites.destroy({ where: {} })
+        this.favoritesEngineRepositoryFavorites.truncate({ restartIdentity: true, cascade: true })
     }
 
     async getFavorites(userId: string) {
@@ -52,7 +65,7 @@ export class FavoritesEngineRepository {
         }
     }
 
-    async createFavorite(userId: number, movieTitle:string, moviePoster:string) {
+    async createFavorite(userId: string, movieTitle:string, moviePoster:string) {
         // const testUser = await this.favoritesEngineRepositoryUsers.create({firstName:"Rita", lastName:'Frias', email:'testemail@gmail.com', password:'123'})
         // console.log(testUser)
         try {
@@ -70,6 +83,22 @@ export class FavoritesEngineRepository {
         }
     }
 
+    async deleteTask(userId: string, movieId: string) {
+        let data = {};
+        try {
+            data = await this.favoritesEngineRepositoryFavorites.destroy({
+                where: {
+                    user_id: userId,
+                    movie_id: movieId
+                },
+            });
+        } catch(err) {
+            console.log(err)
+        }
+        return data;
+    }
+
+
     // async updateTask(favorite) {
     //     let data = {};
     //     try {
@@ -85,18 +114,6 @@ export class FavoritesEngineRepository {
     //     return data;
     // }
 
-    // async deleteTask(taskId) {
-    //     let data = {};
-    //     try {
-    //         data = await this.favoritesEngineRepository.destroy({
-    //             where: {
-    //                 id: taskId
-    //             }
-    //         });
-    //     } catch(err) {
-    //         this.logger.error('Error::' + err);
-    //     }
-    //     return data;
-    // }
+   
 
 }

@@ -12,7 +12,7 @@ export class FavoritesEngineService {
         return await this.FavoritesEngineRepository.getFavorites(userId);
     }
 
-    async createFavorite(userId: number, movieTitle:string, moviePoster:string) {
+    async createFavorite(userId: string, movieTitle:string, moviePoster:string) {
         return await this.FavoritesEngineRepository.createFavorite(userId, movieTitle, moviePoster);
     }
 
@@ -20,8 +20,8 @@ export class FavoritesEngineService {
     //     return await this.FavoritesEngineRepository.updateTask(favorite);
     // }
 
-    // async deleteTask(taskId) {
-    //     return await this.FavoritesEngineRepository.deleteTask(taskId);
-    // }
+    async deleteTask(userId: string, movieId: string) {
+        return await this.FavoritesEngineRepository.deleteTask(userId, movieId);
+    }
 
 }

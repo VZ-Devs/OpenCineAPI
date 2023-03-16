@@ -51,6 +51,10 @@ class App {
           
         });
 
+        this.express.delete('/api/:userId/:movieId', async (req, res) => {
+            const {userId, movieId} = req.params
+            this.favoriteController.deleteTask(userId, movieId).then(data => res.json(data));
+        });
 
         // this.express.post('/api/task', (req, res) => {
         //     console.log(req.body);
@@ -61,9 +65,7 @@ class App {
         //     this.favoriteController.updateTask(req.body.task).then(data => res.json(data));
         // });
         
-        // this.express.delete('/api/task/:id', (req, res) => {
-        //     this.favoriteController.deleteTask(req.params.id).then(data => res.json(data));
-        // });
+       
 
         this.express.get("/", (req, res, next) => {
             res.send("Typescript App works!!");
